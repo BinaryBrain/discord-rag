@@ -1,0 +1,31 @@
+export type Message = {
+  id: string,
+  type: number,
+  content: string,
+  channel_id: string,
+  author: {
+    id: string,
+    username: string,
+    avatar: string,
+    discriminator: string,
+    public_flags: number,
+    premium_type: number,
+    flags: number,
+    banner: any,
+    accent_color: any,
+    global_name: string,
+    avatar_decoration_data: any,
+    banner_color: any
+  },
+  attachments: [],
+  embeds: [],
+  mentions: [],
+  mention_roles: [],
+  pinned: boolean,
+  mention_everyone: boolean,
+  tts: boolean,
+  timestamp: string,
+  edited_timestamp: string,
+  flags: number,
+  components: []
+}
