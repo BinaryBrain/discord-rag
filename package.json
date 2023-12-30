@@ -1,0 +1,36 @@
+{
+  "name": "discord-fetch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "cd dist && node index.js",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "watch:build": "tsc --watch",
+    "watch:start": "nodemon --exec npm run start",
+    "index": "tsc && cd dist && node indexer.js",
+    "dev": "concurrently -n build,start \"npm run watch:build\" \"npm run watch:start\"",
+    "dev:full": "concurrently -n client,index -c yellow,green \"npm run dev\" \"cd client && npm run dev\"",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BinaryBrain/discord-fetch.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BinaryBrain/discord-fetch/issues"
+  },
+  "homepage": "https://github.com/BinaryBrain/discord-fetch#readme",
+  "dependencies": {
+    "axios": "^1.6.3"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.2",
+    "typescript": "^5.2.2"
+  }
+}

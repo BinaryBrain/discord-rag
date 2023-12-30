@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es2020",
+    "lib": ["esnext.array", "es2020", "dom", "es5", "es2017.intl", "es2018.intl", "esnext.intl"],
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "strictPropertyInitialization": false,
+    "sourceMap": true,
+    "outDir": "dist",
+    "allowJs": true,
+    "incremental": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "exclude": [
+    "dist",
+  ]
+}
