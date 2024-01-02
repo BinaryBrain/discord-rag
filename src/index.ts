@@ -1,33 +1,54 @@
-import axios from "axios";
-import { TOKEN, APP_ID, PUBLIC_KEY } from "./secret";
+import fs from "fs";
+import { Message } from "./types/message";
 
-const discord = axios.create({
-  baseURL: 'https://discord.com/api',
-  timeout: 5000,
-  headers: {'Authorization': `Bot ${TOKEN}`}
-});
+let messages: Message[][] = [];
 
-discord.interceptors.response.use((response) => response, (err) => {
-  console.log(err.response.status, err.response.statusText, err.response.data);
-});
+async function main() {
+  await loadJsonFolder("../output/text");
+  await loadJsonFolder("../output/voice");
 
-// /channels/{channel.id}/messages/{message.id}
-// discord.get("/channels/685244471528783875/messages?limit=2").then((res) => {
-/*
-discord.get("/guilds/147046705513234432/channels").then((res) => {
-  console.log(res.status);
-  console.log(res.data.filter((channel: any) => channel.type === 0))
-})
-*/
+  const texts: Message[][][] = [];
+  for (const ms in messages) {
+    console.log(ms);
+    texts[ms] = messagesToTextPerDay(messages[ms]);
+  }
 
-discord.get("/channels/147048208969760769/messages").then((res) => {
-  console.log(res.status);
-  console.log(res.data.filter((channel: any) => channel.type === 0))
-})
+  console.log(texts);
+}
 
-/*
-discord.get("/users/@me").then((res) => {
-  console.log(res.status);
-  console.log(res.data);
-});
-*/
+async function loadJsonFolder(path: string) {
+  const files = fs.readdirSync(path);
+
+  for (const file of files) {
+    const newMessages = JSON.parse(fs.readFileSync(`${path}/${file}`, "utf8"));
+    const chan = file.substring(4).slice(0, -5);
+
+    for (let i = 0; i < newMessages.length; i++) {
+      newMessages[i].channel = chan;
+    }
+
+    messages[chan] = newMessages;
+  }
+}
+
+function messagesToTextPerDay(messages: Message[]) {
+  const messagesPerDay: Message[][] = [];
+
+  messages.forEach(m => {
+    const d = new Date(m.created_at);
+    const date = `${d.getUTCFullYear()}-${d.getUTCMonth() + 1}-${d.getUTCDate()}`
+    if (messagesPerDay[date]) {
+      messagesPerDay[date].push(messageToString(m));
+    } else {
+      messagesPerDay[date] = [messageToString(m)];
+    }
+  });
+
+  return messagesPerDay;
+}
+
+function messageToString(m: Message) {
+  return `${new Date(m.created_at).toLocaleString()} - ${m.author.global_name ?? m.author.name}: ${m.clean_content}`;
+}
+
+main();

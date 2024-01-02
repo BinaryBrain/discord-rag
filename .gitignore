@@ -1,3 +1,4 @@
 src/secret.ts
 node_modules
 dist
+output
