@@ -26,7 +26,9 @@
   },
   "homepage": "https://github.com/BinaryBrain/discord-fetch#readme",
   "dependencies": {
-    "axios": "^1.6.3"
+    "axios": "^1.6.3",
+    "openai": "^4.24.1",
+    "tiktoken": "^1.0.11"
   },
   "devDependencies": {
     "@types/node": "^20.10.6",
